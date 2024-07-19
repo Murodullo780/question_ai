@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:question_ai_project/mixins/question_mixins.dart';
-import 'package:question_ai_project/views/all_feedbacks.dart';
 import 'package:question_ai_project/widgets/questions_widget.dart';
 
 class QuizScreen extends StatefulWidget {

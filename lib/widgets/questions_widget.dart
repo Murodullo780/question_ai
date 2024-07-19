@@ -47,7 +47,7 @@ class _QuestionsWidgetState extends State<QuestionsWidget> with QuestionMixins {
                         ),
                         textAlign: TextAlign.center,
                       ),
-                      Text(widget.questions[index].correctAnswer ?? ""),
+                      // Text(widget.questions[index].correctAnswer ?? ""),
                       Column(
                         children: List.generate(4, (index4) {
                           return RadioListTile(
