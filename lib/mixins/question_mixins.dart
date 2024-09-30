@@ -41,7 +41,7 @@ mixin QuestionMixins {
 
   Future<String?> askQuestion(String level, String topic) async {
     String question = ''
-        'Create 5 questions at an easy $level on $topic with 4 options in JSON format indicating the correct answer. which is one of the ransom options.'
+        'Create 5 questions at an $level level on $topic with 4 options in JSON format indicating the correct answer. which is one of the ransom options.'
         'Here is sample response format:'
         'json[{'
         ' "question": "Simple question",'

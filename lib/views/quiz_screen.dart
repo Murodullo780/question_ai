@@ -58,7 +58,7 @@ class _QuizScreenState extends State<QuizScreen> with QuestionMixins {
             ),
             TextFormField(
               controller: controller,
-              maxLines: null,
+              maxLines: 1,
               onChanged: (v) {
                 // responseText = v;
                 setState(() {});
@@ -75,6 +75,7 @@ class _QuizScreenState extends State<QuizScreen> with QuestionMixins {
                               content: Lottie.asset("assets/json/loading.json"),
                             );
                           });
+                      responseText = "";
                       await askQuestion(difficulty, controller.text)
                           .then((value) {
                         responseText = value!;
@@ -82,6 +83,8 @@ class _QuizScreenState extends State<QuizScreen> with QuestionMixins {
                         debugPrint("\n\n\n$responseText\n\n\n");
                         FocusNode().unfocus();
                         isDoneTest = List.generate(5, (index) => false);
+                        //unfocus
+                        FocusManager.instance.primaryFocus?.unfocus();
                         setState(() {});
                       });
                     }
@@ -131,6 +134,11 @@ class _QuizScreenState extends State<QuizScreen> with QuestionMixins {
                     questions: parseQuizQuestions(responseText
                         .replaceAll("```json", "")
                         .replaceAll("```", "")),
+                    onDone: (index) {
+                      responseText = "";
+                      controller.clear();
+                      setState(() {});
+                    },
                   ),
             const Spacer(),
           ],

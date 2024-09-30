@@ -4,13 +4,16 @@ class QuizQuestion {
   List<String>? options;
   String? correctAnswer;
   String? userAnswer;
+  String? feedback;
 
-  QuizQuestion(
-      {this.id,
-        this.question,
-        this.options,
-        this.correctAnswer,
-        this.userAnswer});
+  QuizQuestion({
+    this.id,
+    this.question,
+    this.options,
+    this.correctAnswer,
+    this.userAnswer,
+    this.feedback,
+  });
 
   QuizQuestion.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -18,6 +21,7 @@ class QuizQuestion {
     options = List<String>.from(json['options']);
     correctAnswer = json['correct_answer'];
     userAnswer = json['user_answer'];
+    feedback = json['feedback'];
   }
 
   Map<String, dynamic> toJson() {
@@ -27,6 +31,7 @@ class QuizQuestion {
     data['options'] = this.options;
     data['correct_answer'] = this.correctAnswer;
     data['user_answer'] = this.userAnswer;
+    data['feedback'] = this.feedback;
     return data;
   }
 

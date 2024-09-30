@@ -5,10 +5,13 @@ import 'package:question_ai_project/views/feedback_screen.dart';
 import '../mixins/question_mixins.dart';
 
 class QuestionsWidget extends StatefulWidget {
-   final List<QuizQuestion> questions;
-   const QuestionsWidget({
+  final List<QuizQuestion> questions;
+  final Function(int)? onDone;
+
+  const QuestionsWidget({
     super.key,
     required this.questions,
+    this.onDone,
   });
 
   @override
@@ -34,7 +37,7 @@ class _QuestionsWidgetState extends State<QuestionsWidget> with QuestionMixins {
           return isDoneTest[index] == true
               ? Container()
               : Container(
-                  height: MediaQuery.of(context).size.height -235,
+                  height: MediaQuery.of(context).size.height - 235,
                   color: const Color(0xffF8F5FE),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -49,26 +52,32 @@ class _QuestionsWidgetState extends State<QuestionsWidget> with QuestionMixins {
                       ),
                       // Text(widget.questions[index].correctAnswer ?? ""),
                       Column(
-                        children: List.generate(4, (index4) {
-                          return RadioListTile(
-                            title: Text(
-                                widget.questions[index].options?[index4] ?? ""),
-                            value: index4 + 1,
-                            groupValue: _selectedValue,
-                            onChanged: (value) {
-                              setState(() {
-                                _selectedValue = value!;
-                                widget.questions[index].userAnswer =
-                                    widget.questions[index].options?[index4];
-                                setState(() {});
-                                debugPrint(widget.questions[index].userAnswer);
-                              });
-                            },
-                          );
-                        }),
+                        children: List.generate(
+                          4,
+                          (index4) {
+                            return RadioListTile(
+                              title: Text(
+                                  widget.questions[index].options?[index4] ??
+                                      ""),
+                              value: index4 + 1,
+                              groupValue: _selectedValue,
+                              onChanged: (value) {
+                                setState(() {
+                                  _selectedValue = value!;
+                                  widget.questions[index].userAnswer =
+                                      widget.questions[index].options?[index4];
+                                  setState(() {});
+                                  debugPrint(
+                                      widget.questions[index].userAnswer);
+                                });
+                              },
+                            );
+                          },
+                        ),
                       ),
                       Container(
                         height: 60,
+                        margin: const EdgeInsets.symmetric(vertical: 15),
                         width: double.maxFinite,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
@@ -77,7 +86,7 @@ class _QuestionsWidgetState extends State<QuestionsWidget> with QuestionMixins {
                               : const Color(0xffF19D38),
                         ),
                         child: InkWell(
-                          onTap: () {
+                          onTap: () async {
                             {
                               if (widget.questions[index].userAnswer != null) {
                                 isDoneTest[index] = true;
@@ -87,7 +96,7 @@ class _QuestionsWidgetState extends State<QuestionsWidget> with QuestionMixins {
                               if (isDoneTest
                                   .every((element) => element == true)) {
                                 debugPrint("All done");
-                                Navigator.push(
+                                await Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => FeedbackScreen(
@@ -95,6 +104,7 @@ class _QuestionsWidgetState extends State<QuestionsWidget> with QuestionMixins {
                                     ),
                                   ),
                                 );
+                                (widget.onDone??(int index){})(index).call();
                               }
                             }
 
